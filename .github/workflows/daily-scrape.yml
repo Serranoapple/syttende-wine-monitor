@@ -1,11 +1,9 @@
-name: 🍷 Syttende Vinkort Scraper
+name: Syttende Vinkort Scraper
 
 on:
   schedule:
-    # Kører dagligt kl. 08:00 dansk tid (06:00 UTC)
-    - cron: "0 6 * * *"
-  workflow_dispatch:
-    # Tillader manuel kørsel fra GitHub Actions UI
+    - cron: "0 6 * * *"   # Dagligt kl. 08:00 dansk tid (06:00 UTC)
+  workflow_dispatch:        # Manuel kørsel fra GitHub Actions UI
 
 jobs:
   scrape:
@@ -23,17 +21,13 @@ jobs:
           cache: "pip"
 
       - name: Install dependencies
-        run: |
-          pip install -r scraper/requirements.txt
+        run: pip install -r scraper/requirements.txt
 
       - name: Run scraper
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          WINE_SEARCHER_API_KEY: ${{ secrets.WINE_SEARCHER_API_KEY }}
-        run: |
-          python scraper/scraper.py
+        run: python scraper/scraper.py
 
       - name: Upload logs on failure
         if: failure()
