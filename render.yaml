@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: syttende-wine-monitor
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_SUPABASE_URL
+        sync: false   # Sæt dette i Render dashboard
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false   # Sæt dette i Render dashboard
